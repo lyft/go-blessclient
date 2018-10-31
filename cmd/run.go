@@ -2,8 +2,11 @@ package cmd
 
 import (
 	"context"
+	"time"
 
+	"github.com/99designs/keyring"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
 	"github.com/aws/aws-sdk-go/aws/session"
 	bless "github.com/chanzuckerberg/blessclient/pkg/bless"
@@ -19,11 +22,17 @@ import (
 	beeline "github.com/honeycombio/beeline-go"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/pkg/errors"
+	awsokta "github.com/segmentio/aws-okta/lib"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
 func init() {
+	// backendsAvailable := []string{}
+	// for _, backendType := range keyring.AvailableBackends() {
+	// 	backendsAvailable = append(backendsAvailable, string(backendType))
+	// }
+
 	runCmd.Flags().StringP("config", "c", config.DefaultConfigFile, "Use this to override the bless config file.")
 	rootCmd.AddCommand(runCmd)
 }
@@ -128,25 +137,83 @@ func processRegion(ctx context.Context, conf *config.Config, sess *session.Sessi
 func getAWSClient(ctx context.Context, conf *config.Config, sess *session.Session, region config.Region) *cziAWS.Client {
 	ctx, span := beeline.StartSpan(ctx, "get_aws_client")
 	defer span.Send()
+
+	// TODO make configurable
+	profile := "bless"
+
+	config, err := awsokta.NewConfigFromEnv()
+	if err != nil {
+		// return err
+		return nil
+	}
+
+	profiles, err := config.Parse()
+	if err != nil {
+		// return err
+		return nil
+	}
+
+	if _, ok := profiles[profile]; !ok {
+		// return fmt.Errorf("Profile '%s' not found in your aws config", profile)
+		return nil
+	}
+
+	sessionTTL := time.Hour
+	assumeRoleTTL := time.Hour
+	opts := awsokta.ProviderOptions{
+		Profiles:           profiles,
+		SessionDuration:    sessionTTL,
+		AssumeRoleDuration: assumeRoleTTL,
+	}
+
+	var allowedBackends []keyring.BackendType
+	// if backend != "" {
+	// 	allowedBackends = append(allowedBackends, keyring.BackendType(backend))
+	// }
+
+	kr, err := awsokta.OpenKeyring(allowedBackends)
+	if err != nil {
+		// return err
+		return nil
+	}
+
+	p, err := awsokta.NewProvider(kr, profile, opts)
+	if err != nil {
+		// return err
+		return nil
+	}
+
+	creds, err := p.Retrieve()
+	if err != nil {
+		// return err
+		return nil
+	}
+
 	// for things meant to be run as a user
 	userConf := &aws.Config{
 		Region: aws.String(region.AWSRegion),
-	}
-	// for things meant to be run as an assumed role
-	roleConf := &aws.Config{
-		Region: aws.String(region.AWSRegion),
-		Credentials: stscreds.NewCredentials(
-			sess,
-			conf.LambdaConfig.RoleARN, func(p *stscreds.AssumeRoleProvider) {
-				p.TokenProvider = stscreds.StdinTokenProvider
-			},
+		Credentials: credentials.NewStaticCredentials(
+			creds.AccessKeyID,
+			creds.SecretAccessKey,
+			creds.SessionToken,
 		),
 	}
+
+	// for things meant to be run as an assumed role
+	// roleConf := &aws.Config{
+	// 	Region: aws.String(region.AWSRegion),
+	// 	Credentials: stscreds.NewCredentials(
+	// 		sess,
+	// 		conf.LambdaConfig.RoleARN, func(p *stscreds.AssumeRoleProvider) {
+	// 			p.TokenProvider = stscreds.StdinTokenProvider
+	// 		},
+	// 	),
+	// }
 	awsClient := cziAWS.New(sess).
 		WithIAM(userConf).
 		WithKMS(userConf).
 		WithSTS(userConf).
-		WithLambda(roleConf)
+		WithLambda(userConf)
 	return awsClient
 }
 

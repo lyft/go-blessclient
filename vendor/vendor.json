@@ -1,0 +1,121 @@
+{
+	"comment": "",
+	"ignore": "",
+	"package": [
+		{
+			"checksumSHA1": "kt2NW4C8DLmG5HcpXXvEpwP4W20=",
+			"path": "github.com/Sirupsen/logrus",
+			"revision": "566a5f690849162ff53cf98f3c42135389d63f95",
+			"revisionTime": "2018-10-29T06:08:39Z"
+		},
+		{
+			"checksumSHA1": "mJ8L+VEUNfB4s53n00P0foANAeM=",
+			"path": "github.com/bmizerany/assert",
+			"revision": "b7ed37b82869576c289d7d97fb2bbd8b64a0cb28",
+			"revisionTime": "2016-06-11T22:19:34Z"
+		},
+		{
+			"checksumSHA1": "QP8e671IsHhYM6bJRzRPF/ehQfA=",
+			"path": "github.com/jehiah/go-strftime",
+			"revision": "1d33003b386959af197ba96475f198c114627b5e",
+			"revisionTime": "2017-12-01T14:10:54Z"
+		},
+		{
+			"checksumSHA1": "jwoPNwN+mUiYFQPjQa/U3Kli7Ak=",
+			"path": "github.com/kr/pretty",
+			"revision": "73f6ac0b30a98e433b289500d779f50c1a6f0712",
+			"revisionTime": "2018-05-06T08:33:45Z"
+		},
+		{
+			"checksumSHA1": "x9dJv+jQhUFN6R6h4fzPjGLvQLg=",
+			"path": "github.com/kr/text",
+			"revision": "e2ffdb16a802fe2bb95e2e35ff34f0e53aeef34f",
+			"revisionTime": "2018-05-06T08:24:08Z"
+		},
+		{
+			"checksumSHA1": "32i7idwwmFn9frbXRS/p9AtDwFo=",
+			"path": "github.com/segmentio/analytics-go",
+			"revision": "fe449d569c914ede33754d117bd38526c65e48c9",
+			"revisionTime": "2018-06-01T15:25:59Z"
+		},
+		{
+			"checksumSHA1": "wbCjlOjsh5nTvmUalNmuo51n5yI=",
+			"path": "github.com/segmentio/aws-okta",
+			"revision": "9f05b633078c12f353a956a513b190c8d74999c1",
+			"revisionTime": "2018-10-24T00:02:34Z"
+		},
+		{
+			"checksumSHA1": "OX+62R0I2ZwyCAph+6OssYHu8FA=",
+			"path": "github.com/segmentio/aws-okta/cmd",
+			"revision": "9f05b633078c12f353a956a513b190c8d74999c1",
+			"revisionTime": "2018-10-24T00:02:34Z"
+		},
+		{
+			"checksumSHA1": "HUxTA75TAMQY2jFXcMDzPqFy3Hs=",
+			"path": "github.com/segmentio/aws-okta/lib",
+			"revision": "9f05b633078c12f353a956a513b190c8d74999c1",
+			"revisionTime": "2018-10-24T00:02:34Z"
+		},
+		{
+			"checksumSHA1": "2b2Uro9QR73sicNgTNwz2G/YKBA=",
+			"path": "github.com/segmentio/aws-okta/lib/saml",
+			"revision": "9f05b633078c12f353a956a513b190c8d74999c1",
+			"revisionTime": "2018-10-24T00:02:34Z"
+		},
+		{
+			"checksumSHA1": "NKyZwGun8cRsapylNjOKCjcekwU=",
+			"path": "github.com/segmentio/backo-go",
+			"revision": "204274ad699c0983a70203a566887f17a717fef4",
+			"revisionTime": "2016-04-24T05:23:52Z"
+		},
+		{
+			"checksumSHA1": "jDsR9gpxYB6YBduE5qD8FmLiYv0=",
+			"path": "github.com/sirupsen/logrus/hooks/syslog",
+			"revision": "566a5f690849162ff53cf98f3c42135389d63f95",
+			"revisionTime": "2018-10-29T06:08:39Z"
+		},
+		{
+			"checksumSHA1": "zt1WCAJyLKq610bOl7+09HjSKp4=",
+			"path": "github.com/sirupsen/logrus/internal/testutils",
+			"revision": "566a5f690849162ff53cf98f3c42135389d63f95",
+			"revisionTime": "2018-10-29T06:08:39Z"
+		},
+		{
+			"checksumSHA1": "q2ogPFm6x2HhSWBckneLaGOQfwE=",
+			"path": "github.com/skratchdot/open-golang/open",
+			"revision": "75fb7ed4208cf72d323d7d02fd1a5964a7a9073c",
+			"revisionTime": "2016-03-02T14:40:31Z"
+		},
+		{
+			"checksumSHA1": "CdFUSTEB5KTYNpSH47vQqUcflVM=",
+			"path": "github.com/vaughan0/go-ini",
+			"revision": "a98ad7ee00ec53921f08832bc06ecf7fd600e6a1",
+			"revisionTime": "2013-09-23T14:52:12Z"
+		},
+		{
+			"checksumSHA1": "Nm3vOB4gafNw6NZBD+08NpcklD8=",
+			"path": "github.com/xtgo/uuid",
+			"revision": "a0b114877d4caeffbd7f87e3757c17fce570fea7",
+			"revisionTime": "2014-08-04T02:12:11Z"
+		},
+		{
+			"checksumSHA1": "w0yqd7CVhuFBg4Cq4bdQqRb0lYo=",
+			"path": "golang.org/x/net/html",
+			"revision": "c44066c5c816ec500d459a2a324a753f78531ae0",
+			"revisionTime": "2018-10-29T02:24:31Z"
+		},
+		{
+			"checksumSHA1": "EyHxARXNgW+jgU4s7K2Vig1fWFk=",
+			"path": "golang.org/x/net/html/atom",
+			"revision": "c44066c5c816ec500d459a2a324a753f78531ae0",
+			"revisionTime": "2018-10-29T02:24:31Z"
+		},
+		{
+			"checksumSHA1": "WnYjixUBAkOodnbStVvVH54Jtdg=",
+			"path": "golang.org/x/net/publicsuffix",
+			"revision": "c44066c5c816ec500d459a2a324a753f78531ae0",
+			"revisionTime": "2018-10-29T02:24:31Z"
+		}
+	],
+	"rootPath": "github.com/chanzuckerberg/blessclient"
+}
