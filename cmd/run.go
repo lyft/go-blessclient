@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/99designs/keyring"
@@ -138,24 +139,67 @@ func getAWSClient(ctx context.Context, conf *config.Config, sess *session.Sessio
 	ctx, span := beeline.StartSpan(ctx, "get_aws_client")
 	defer span.Send()
 
-	// TODO make configurable
-	profile := "bless"
+	var userConf, lambdaConf *aws.Config
+	if conf.ClientConfig.OktaProfile != nil {
+		creds, err := getAWSOktaCredentials(*conf.ClientConfig.OktaProfile)
+		if err != nil {
+			log.Errorf("Error in retrieving AWS Okta session credentials: %s.", err.Error())
+			return nil
+		}
+
+		// for things meant to be run as a user
+		userConf = &aws.Config{
+			Region: aws.String(region.AWSRegion),
+			Credentials: credentials.NewStaticCredentials(
+				creds.AccessKeyID,
+				creds.SecretAccessKey,
+				creds.SessionToken,
+			),
+		}
+	} else {
+		// for things meant to be run as a user
+		userConf = &aws.Config{
+			Region: aws.String(region.AWSRegion),
+		}
+	}
+
+	if conf.LambdaConfig.RoleARN != nil {
+		// for things meant to be run as an assumed role
+		lambdaConf = &aws.Config{
+			Region: aws.String(region.AWSRegion),
+			Credentials: stscreds.NewCredentials(
+				sess,
+				*conf.LambdaConfig.RoleARN, func(p *stscreds.AssumeRoleProvider) {
+					p.TokenProvider = stscreds.StdinTokenProvider
+				},
+			),
+		}
+	} else {
+		lambdaConf = userConf
+	}
+
+	awsClient := cziAWS.New(sess).
+		WithIAM(userConf).
+		WithKMS(userConf).
+		WithSTS(userConf).
+		WithLambda(lambdaConf)
+	return awsClient
+}
+
+func getAWSOktaCredentials(profile string) (*credentials.Value, error) {
 
 	config, err := awsokta.NewConfigFromEnv()
 	if err != nil {
-		// return err
-		return nil
+		return nil, err
 	}
 
 	profiles, err := config.Parse()
 	if err != nil {
-		// return err
-		return nil
+		return nil, err
 	}
 
 	if _, ok := profiles[profile]; !ok {
-		// return fmt.Errorf("Profile '%s' not found in your aws config", profile)
-		return nil
+		return nil, fmt.Errorf("Profile '%s' not found in your aws config", profile)
 	}
 
 	sessionTTL := time.Hour
@@ -173,48 +217,20 @@ func getAWSClient(ctx context.Context, conf *config.Config, sess *session.Sessio
 
 	kr, err := awsokta.OpenKeyring(allowedBackends)
 	if err != nil {
-		// return err
-		return nil
+		return nil, err
 	}
 
 	p, err := awsokta.NewProvider(kr, profile, opts)
 	if err != nil {
-		// return err
-		return nil
+		return nil, err
 	}
 
 	creds, err := p.Retrieve()
 	if err != nil {
-		// return err
-		return nil
+		return nil, err
 	}
 
-	// for things meant to be run as a user
-	userConf := &aws.Config{
-		Region: aws.String(region.AWSRegion),
-		Credentials: credentials.NewStaticCredentials(
-			creds.AccessKeyID,
-			creds.SecretAccessKey,
-			creds.SessionToken,
-		),
-	}
-
-	// for things meant to be run as an assumed role
-	// roleConf := &aws.Config{
-	// 	Region: aws.String(region.AWSRegion),
-	// 	Credentials: stscreds.NewCredentials(
-	// 		sess,
-	// 		conf.LambdaConfig.RoleARN, func(p *stscreds.AssumeRoleProvider) {
-	// 			p.TokenProvider = stscreds.StdinTokenProvider
-	// 		},
-	// 	),
-	// }
-	awsClient := cziAWS.New(sess).
-		WithIAM(userConf).
-		WithKMS(userConf).
-		WithSTS(userConf).
-		WithLambda(userConf)
-	return awsClient
+	return &creds, nil
 }
 
 // getCert requests a cert and persists it to disk

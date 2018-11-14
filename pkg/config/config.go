@@ -66,6 +66,8 @@ type ClientConfig struct {
 	AWSUserProfile string ` yaml:"aws_user_profile"`
 	// AWSUserName is your AWS username
 	AWSUserName *string ` yaml:"aws_username,omitempty"`
+	// OktaProfile is the profile with which to invoke BLESS
+	OktaProfile *string ` yaml:okta_profile,omitempty"`
 
 	// Path to your ssh private key
 	SSHPrivateKey  string `yaml:"ssh_private_key"`
@@ -82,7 +84,7 @@ type ClientConfig struct {
 // LambdaConfig is the lambda config
 type LambdaConfig struct {
 	// RoleARN used to assume and invoke bless lambda
-	RoleARN string `yaml:"role_arn"`
+	RoleARN *string `yaml:"role_arn,omitempty"`
 	// Bless lambda function name
 	FunctionName string `yaml:"function_name"`
 	// bless lambda regions
