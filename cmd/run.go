@@ -141,6 +141,7 @@ func getAWSClient(ctx context.Context, conf *config.Config, sess *session.Sessio
 
 	var userConf, lambdaConf *aws.Config
 	if conf.ClientConfig.OktaProfile != nil {
+		log.Debugf("Getting Okta AWS SSO credentials")
 		creds, err := getAWSOktaCredentials(*conf.ClientConfig.OktaProfile)
 		if err != nil {
 			log.Errorf("Error in retrieving AWS Okta session credentials: %s.", err.Error())
@@ -157,6 +158,7 @@ func getAWSClient(ctx context.Context, conf *config.Config, sess *session.Sessio
 			),
 		}
 	} else {
+		log.Debugf("Defaulting to user's credentials")
 		// for things meant to be run as a user
 		userConf = &aws.Config{
 			Region: aws.String(region.AWSRegion),
