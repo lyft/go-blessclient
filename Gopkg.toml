@@ -47,9 +47,8 @@
   version = "0.8.0"
 
 [[constraint]]
-  branch = "master"
   name = "github.com/segmentio/aws-okta"
-  source = "github.com/chanzuckerberg/aws-okta"
+  branch = "master"
 
 [[constraint]]
   name = "github.com/segmentio/go-prompt"

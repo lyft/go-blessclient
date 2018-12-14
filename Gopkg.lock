@@ -18,7 +18,7 @@
   revision = "25c3068a42a0b50b877953fb249dbcffc6bd1bca"
 
 [[projects]]
-  digest = "1:eda99bd516b18300773e251e896c0060745b8e4908eb4be6a1b7c34bef704194"
+  digest = "1:72cfba4c2022c05741248ec8e4e7d13fef25bd5def64dcf1c63a73006555bc89"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -76,8 +76,8 @@
     "service/support/supportiface",
   ]
   pruneopts = "UT"
-  revision = "056aa960bc0fb3918d8b2101e2a9c92675327ea3"
-  version = "v1.16.5"
+  revision = "5f1ca23f3ded773a9ba214e6fac36acd9a965a53"
+  version = "v1.16.6"
 
 [[projects]]
   branch = "master"
@@ -346,6 +346,26 @@
   version = "v1.1.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:ce65d9bb6dd46942e2b815a6009ca23499c4d61be7abab11366d2dd128bf0231"
+  name = "github.com/marshallbrekka/go-u2fhost"
+  packages = [
+    ".",
+    "bytes",
+    "hid",
+  ]
+  pruneopts = "UT"
+  revision = "72b0e7a3f583583996b3b382d2dfaa81fdc4b82c"
+
+[[projects]]
+  branch = "master"
+  digest = "1:13ded4febab3d1b69f80c5d91cc7d8c4be6bf6e979c57431e3e66239782aa2c3"
+  name = "github.com/marshallbrekka/go.hid"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "2c1c4616a9e71d08897a583653abca4b4ac55028"
+
+[[projects]]
   digest = "1:78bbb1ba5b7c3f2ed0ea1eab57bdd3859aec7e177811563edc41198a760b06af"
   name = "github.com/mitchellh/go-homedir"
   packages = ["."]
@@ -387,15 +407,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:d8040ac29eccde31cce968c703c5aa1e8b0af215cb549eaff3248be9dfcf204a"
+  digest = "1:5ac7b11ff55554d981f4c7a934d05020e395dc27cf5ba705b44c0e621b3b9657"
   name = "github.com/segmentio/aws-okta"
   packages = [
     "lib",
     "lib/saml",
   ]
   pruneopts = "UT"
-  revision = "0728518da611644888b7889c8de02544061bc7d4"
-  source = "github.com/chanzuckerberg/aws-okta"
+  revision = "8a61d94774587e0babe3d571c857b9dbd71cda8d"
 
 [[projects]]
   branch = "master"
@@ -473,6 +492,14 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "a98ad7ee00ec53921f08832bc06ecf7fd600e6a1"
+
+[[projects]]
+  branch = "master"
+  digest = "1:74a0382dfade875842563c677b899e87eb14fae3e7639f858ae52c1bbc11bc93"
+  name = "github.com/vitaminwater/cgo.wchar"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5dd6f4be3f2a8c064325fe63439975cf37a8aa1d"
 
 [[projects]]
   digest = "1:bc4aaa0db4ea6107fd151d7c56ab48cae34d65a0f409ede7484dfd3c6f793e7e"
