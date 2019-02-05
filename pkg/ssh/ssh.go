@@ -120,7 +120,7 @@ func (s *SSH) ReadAndParseCert() (*ssh.Certificate, error) {
 }
 
 // IsCertFresh determines if the cert is still fresh
-func (s *SSH) IsCertFresh(c *config.Config) (bool, error) {
+func (s *SSH) IsCertFresh(c *config.Config, username string) (bool, error) {
 	cert, err := s.ReadAndParseCert()
 	if err != nil {
 		return false, err
@@ -139,7 +139,7 @@ func (s *SSH) IsCertFresh(c *config.Config) (bool, error) {
 	val, ok := cert.CriticalOptions["source-address"]
 	isFresh = isFresh && ok && val == strings.Join(c.ClientConfig.BastionIPS, ",")
 	// Compare principals
-	isFresh = isFresh && reflect.DeepEqual(cert.ValidPrincipals, c.ClientConfig.RemoteUsers)
+	isFresh = isFresh && reflect.DeepEqual(cert.ValidPrincipals, c.GetRemoteUsers(username))
 
 	return isFresh, nil
 }
@@ -189,7 +189,7 @@ func (s *SSH) CheckKeyTypeAndClientVersion(ctx context.Context) {
 		}
 		span.AddAttributes(trace.StringAttribute("ssh_key_type", "rsa"), trace.Int64Attribute("ssh_key_size", int64(k.Size())))
 		if strings.Contains(version, "OpenSSH_7.8") {
-			logrus.Warn(`
+			logrus.Debug(`
 Looks like you are attempting to use an RSA key with OpenSSH_7.8.
 This might be an unsupported opperation.
 See: https://github.com/chanzuckerberg/blessclient#ssh-client-78-cant-connect-with-certificates`)

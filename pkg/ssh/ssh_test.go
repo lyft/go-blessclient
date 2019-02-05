@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/chanzuckerberg/blessclient/pkg/config"
+	log "github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
@@ -134,6 +135,7 @@ func (ts *TestSuite) TestCheckVersionErrorLogError() {
 }
 
 func (ts *TestSuite) TestCheckVersionRSA78() {
+	log.SetLevel(log.DebugLevel)
 	t := ts.T()
 	a := assert.New(t)
 	s, err := NewSSH(rsaPrivateKeyPath)
@@ -195,7 +197,7 @@ func (ts *TestSuite) TestIsCertFreshExpiredCert() {
 		},
 	}
 	// no error no cert
-	fresh, err := s.IsCertFresh(conf)
+	fresh, err := s.IsCertFresh(conf, "username")
 	a.Nil(err)
 	a.False(fresh)
 }
@@ -215,7 +217,7 @@ func (ts *TestSuite) TestIsCertFreshNoCert() {
 		},
 	}
 	// no error no cert
-	fresh, err := s.IsCertFresh(conf)
+	fresh, err := s.IsCertFresh(conf, "username")
 	a.Nil(err)
 	a.False(fresh)
 }
