@@ -266,9 +266,9 @@ func (c *Config) GetRemoteUsers(username string) []string {
 
 // GetOktaMFAConfig gets the user's designated MFA device, defaulting to "phone1"
 // (phone-based MFA) via Duo.
-func (c *Config) GetOktaMFAConfig() string {
+func (c *Config) GetOktaMFAConfig() awsokta.MFAConfig {
 	provider := "DUO"
-	factorType := "push"
+	factorType := "web"
 	duoDevice := "phone1"
 	if c.OktaConfig.MFAProvider != nil {
 		provider = *c.OktaConfig.MFAProvider
