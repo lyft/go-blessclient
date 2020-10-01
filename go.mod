@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/99designs/keyring v1.1.1
-	github.com/aws/aws-sdk-go v1.23.2
+	github.com/aws/aws-sdk-go v1.25.25
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/chanzuckerberg/go-misc v0.0.0-20190716060611-91021143eac9
@@ -20,7 +20,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/nightlyone/lockfile v0.0.0-20180618180623-0ad87eef1443
 	github.com/pkg/errors v0.8.1
-	github.com/segmentio/aws-okta v0.24.1
+	github.com/segmentio/aws-okta v1.0.5
 	github.com/segmentio/go-prompt v1.2.1-0.20161017233205-f0d19b6901ad
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cobra v0.0.5
